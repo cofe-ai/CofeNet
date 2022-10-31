@@ -5,7 +5,7 @@ import torch.nn.functional as F
 from torchcrf import CRF
 
 from models.base import ExpModelBase
-from models.torch_utils import DynamicLSTM, GreedyCellB, sequence_mask
+from models.torch_utils import DynamicLSTM, EnhancedCell, sequence_mask
 
 
 class ModelLSTM(ExpModelBase):
@@ -70,9 +70,9 @@ class ModelLSTM_CRF(ModelLSTM):
         return b_tag_seq
 
 
-class ModelLSTM_GRDB(ExpModelBase):
+class ModelLSTM_Cofe(ExpModelBase):
     def __init__(self, config):
-        super(ModelLSTM_GRDB, self).__init__()
+        super(ModelLSTM_Cofe, self).__init__()
         self.tag_size = config['tag_size']
         self.words_emb_dropout_prob = config['words_emb_dropout_prob']
         self.words_rep_dropout_prob = config['words_rep_dropout_prob']
@@ -91,18 +91,18 @@ class ModelLSTM_GRDB(ExpModelBase):
                                       num_layers=self.lstm_num_layers, bias=True, bidirectional=self.lstm_bidirectional,
                                       dropout=self.lstm_dropout_prob)
         self.words_rep_dropout = nn.Dropout(self.words_rep_dropout_prob)
-        self.layer_grd = GreedyCellB(config['grdb'])
+        self.layer_enh = EnhancedCell(config['grdb'])
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         tk_embedding = self.words_emb_dropout(self.layer_emb(batch_data['tkidss']))
         words_hidden = self.words_rep_dropout(self.layer_lstm(tk_embedding, batch_data['lengths'])[0])
-        loss = self.layer_grd.forward(words_hidden, batch_data['lengths'], labelss, ignore_index=ignore_idx)
+        loss = self.layer_enh.forward(words_hidden, batch_data['lengths'], labelss, ignore_index=ignore_idx)
         return loss
 
     def predict(self, batch_data: dict):
         tk_embedding = self.layer_emb(batch_data['tkidss'])
         words_hidden = self.layer_lstm(tk_embedding, batch_data['lengths'])[0]
-        list_tags = torch.argmax(self.layer_grd.predict(words_hidden, batch_data['lengths']), dim=-1)
+        list_tags = torch.argmax(self.layer_enh.predict(words_hidden, batch_data['lengths']), dim=-1)
         return list_tags
 
     def load_pretrained(self, pretrained_model_name_or_path):
@@ -124,7 +124,7 @@ if __name__ == '__main__':
     exp_name = 'en2f_lstm_grdb'
 
     exp_conf = ExpConfig(exp_name)
-    obj = ModelLSTM_GRDB(exp_conf.mod_conf)
+    obj = ModelLSTM_Cofe(exp_conf.mod_conf)
 
     ds = imp_exp_dataset(exp_name, 'TST')
     train_loader = DataLoader(dataset=ds, batch_size=2, shuffle=True, collate_fn=ds.collate)

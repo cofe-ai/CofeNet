@@ -33,7 +33,8 @@ class Executor(object):
         select_index = mod_index
         if mod_index < 0:
             bng_idx, end_idx = len('model_'), len('.bin')
-            indexs = [int(name[bng_idx: -end_idx]) for name in os.listdir(self.model_param_dir) if len(name) > (bng_idx + end_idx)]
+            indexs = [int(name[bng_idx: -end_idx]) for name in os.listdir(self.model_param_dir) if
+                      len(name) > (bng_idx + end_idx)]
             assert indexs, 'no model file in %s' % self.model_param_dir
             select_index = max(indexs)
 
@@ -216,7 +217,8 @@ class Executor(object):
             ret += '|%16s|%8s|%8s|%8s|' % (' ', 'source', 'cue', 'content') + '\n'
             ret += '|%16s|%8s|%8s|%8s|' % (':----', ':----:', ':----:', ':----:') + '\n'
             ret += '|%16s|%8.4f|%8.4f|%8.4f|' % \
-                   ('jaccard', eval_result['jaccard']['source'], eval_result['jaccard']['cue'], eval_result['jaccard']['content']) + '\n'
+                   ('jaccard', eval_result['jaccard']['source'], eval_result['jaccard']['cue'],
+                    eval_result['jaccard']['content']) + '\n'
 
             # all
             ret += '\n'
@@ -225,7 +227,8 @@ class Executor(object):
             ret += '| %.4f | %.4f | %.4f | %.4f | %.4f | %.4f | %.4f | %.4f | %.4f |\n' % (
                 eval_result['exact_match']['source']['f1'], eval_result['exact_match']['cue']['f1'],
                 eval_result['exact_match']['content']['f1'],
-                eval_result['begin']['source']['f1'], eval_result['begin']['cue']['f1'], eval_result['begin']['content']['f1'],
+                eval_result['begin']['source']['f1'], eval_result['begin']['cue']['f1'],
+                eval_result['begin']['content']['f1'],
                 eval_result['jaccard']['source'], eval_result['jaccard']['cue'], eval_result['jaccard']['content']
             )
 
@@ -244,7 +247,7 @@ class Executor(object):
                 tgstrss.append([self.map_tgid2tg[tgid] for tgid in tgids[:length]])
         return tgstrss
 
-    def save_single_case_weight_by_grdb(self, dataset_file, output_file, batch_size=32):
+    def save_single_case_weight_by_cofe(self, dataset_file, output_file, batch_size=32):
         dataset = imp_exp_dataset(self.exp_conf, dataset_file, self.device)
         dataloder = SingleDataLoader(dataset=dataset, batch_size=batch_size,
                                      sampler=SequentialSampler(dataset), collate_fn=dataset.collate)
@@ -285,7 +288,7 @@ class Executor(object):
 
         return preds, labels, all_weights
 
-    def save_mean_weight_by_grdb(self, output_dir, batch_size=32):
+    def save_mean_weight_by_cofe(self, output_dir, batch_size=32):
         dataloder = SingleDataLoader(dataset=self.data_tst, batch_size=batch_size,
                                      sampler=SequentialSampler(self.data_tst), collate_fn=self.data_tst.collate)
 
@@ -299,7 +302,8 @@ class Executor(object):
             with torch.no_grad():
                 batch_preds, weights = self.model.predict(batch_data, output_weight=True)
 
-            for tags, weight, length in zip(batch_preds.data.cpu().numpy(), weights.cpu().numpy(), batch_data['lengths'].cpu().numpy()):
+            for tags, weight, length in zip(batch_preds.data.cpu().numpy(), weights.cpu().numpy(),
+                                            batch_data['lengths'].cpu().numpy()):
                 for seq in range(length):
                     cur_tag = tags[seq] + 1
                     pre_tag = 0 if seq == 0 else tags[seq - 1] + 1
@@ -334,7 +338,7 @@ class Executor(object):
         print('weight_nxt_r')
         print(weight_nxt_r)
 
-    def save_con_prob_by_grdb(self, output_dir, batch_size=32):
+    def save_con_prob_by_cofe(self, output_dir, batch_size=32):
         dataloder = SingleDataLoader(dataset=self.data_tst, batch_size=batch_size,
                                      sampler=SequentialSampler(self.data_tst), collate_fn=self.data_tst.collate)
 
@@ -346,7 +350,8 @@ class Executor(object):
             with torch.no_grad():
                 batch_preds, weights = self.model.predict(batch_data, output_weight=True)
 
-            for t_pred, t_true, length in zip(batch_preds.data.cpu().numpy(), labels.cpu().numpy(), batch_data['lengths'].cpu().numpy()):
+            for t_pred, t_true, length in zip(batch_preds.data.cpu().numpy(), labels.cpu().numpy(),
+                                              batch_data['lengths'].cpu().numpy()):
                 for seq in range(length):
                     pre_tag = 0 if seq == 0 else t_pred[seq - 1] + 1
                     cur_tag = t_pred[seq] + 1
@@ -386,7 +391,7 @@ class Executor(object):
         print('prob_diff_abs')
         print(prob_diff_abs)
 
-    def save_Zs_by_grdb(self, output_dir, batch_size=32):
+    def save_Zs_by_cofe(self, output_dir, batch_size=32):
         dataloder = SingleDataLoader(dataset=self.data_tst, batch_size=batch_size,
                                      sampler=SequentialSampler(self.data_tst), collate_fn=self.data_tst.collate)
 
@@ -405,7 +410,8 @@ class Executor(object):
                 batch_preds, Zpes, Zhps, Zhcs, Zhns = self.model.predict(batch_data, output_Z=True)
 
             for tags, Zpe, Zhp, Zhc, Zhn, length in zip(labels,
-                                                        Zpes.cpu().numpy(), Zhps.cpu().numpy(), Zhcs.cpu().numpy(), Zhns.cpu().numpy(),
+                                                        Zpes.cpu().numpy(), Zhps.cpu().numpy(), Zhcs.cpu().numpy(),
+                                                        Zhns.cpu().numpy(),
                                                         batch_data['lengths'].cpu().numpy()):
                 for seq in range(length):
                     p = 0 if seq == 0 else tags[seq - 1] + 1
@@ -462,52 +468,45 @@ if __name__ == '__main__':
     # log worst items
     # mod.log_worst_items_by_tst(max_log_items=3000)
 
-    # WEIGHT zh 1 case
-    # mod = Executor('zh_bert_grdb', None).load_model()
-    # preds, labels, all_weights = mod.print_weight_from_grdb(
-    #     '/Users/lixiang/PycharmProjects/discourse/res/zh/oth.txt',
-    #     '/Users/lixiang/PycharmProjects/discourse/log/zh_single_weight.xlsx'
-    # )
-
     # WEIGHT en2f 1 case
     # mod = Executor('en2f_bert_grdb', None).load_model()
-    # preds, labels, all_weights = mod.save_single_case_weight_by_grdb(
+    # preds, labels, all_weights = mod.save_single_case_weight_by_cofe(
     #     '/Users/lixiang/PycharmProjects/discourse/res/polnear-v2-fixed/oth.txt',
     #     '/Users/lixiang/PycharmProjects/discourse/log/en2f_single_weight.xlsx'
     # )
 
     # mean WEIGHT zh
     # mod = Executor('zh_bert_grdb', None).load_model()
-    # mod.save_mean_weight_by_grdb(
+    # mod.save_mean_weight_by_cofe(
     #     '/Users/lixiang/PycharmProjects/discourse/log/zh_weight'
     # )
 
     # mean WEIGHT en2f
     # mod = Executor('en2f_bert_grdb', None).load_model()
-    # mod.save_mean_weight_by_grdb(
+    # mod.save_mean_weight_by_cofe(
     #     '/Users/lixiang/PycharmProjects/discourse/log/en2f_weight'
     # )
 
     # mean WEIGHT zh
     # mod = Executor('zh_bert_grdb', None).load_model()
-    # mod.save_con_prob_by_grdb(
+    # mod.save_con_prob_by_cofe(
     #     '/Users/lixiang/PycharmProjects/discourse/log/zh_prob'
     # )
 
     # mean WEIGHT en2f
     # mod = Executor('en2f_bert_grdb', None).load_model()
-    # mod.save_con_prob_by_grdb(
+    # mod.save_con_prob_by_cofe(
     #     '/Users/lixiang/PycharmProjects/discourse/log/en2f_prob'
     # )
 
     # mean Zs en2f
     # mod = Executor('en2f_bert_grdb', None).load_model()
-    # mod.save_Zs_by_grdb(
+    # mod.save_Zs_by_cofe(
     #     '/Users/lixiang/PycharmProjects/discourse/log/en2f_Zs'
     # )
 
     # mean Zs zh
     # mod = Executor('zh_bert_grdb', None).load_model()
-    # mod.save_Zs_by_grdb(
+    # mod.save_Zs_by_cofe(
     #     '/Users/lixiang/PycharmProjects/discourse/log/zh_Zs'
     # )

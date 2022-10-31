@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torchcrf import CRF
 
 from models.base import ExpModelBase
-from models.torch_utils import SeqCNN, GreedyCellB, sequence_mask
+from models.torch_utils import SeqCNN, EnhancedCell, sequence_mask
 
 
 class ModelCNN(ExpModelBase):
@@ -65,9 +65,9 @@ class ModelCNN_CRF(ModelCNN):
         return b_tag_seq
 
 
-class ModelCNN_GRDB(ExpModelBase):
+class ModelCNN_Cofe(ExpModelBase):
     def __init__(self, config):
-        super(ModelCNN_GRDB, self).__init__()
+        super(ModelCNN_Cofe, self).__init__()
         self.tag_size = config['tag_size']
         self.words_emb_dropout_prob = config['words_emb_dropout_prob']
         self.words_rep_dropout_prob = config['words_rep_dropout_prob']
@@ -83,18 +83,18 @@ class ModelCNN_GRDB(ExpModelBase):
         self.words_emb_dropout = nn.Dropout(self.words_emb_dropout_prob)
         self.layer_cnn = SeqCNN(self.word_embedding_dim, self.cnn_channels, self.cnn_out_hidden_size, self.cnn_kernel_sizes, self.cnn_pool)
         self.words_rep_dropout = nn.Dropout(self.words_rep_dropout_prob)
-        self.layer_grd = GreedyCellB(config['grdb'])
+        self.layer_enh = EnhancedCell(config['grdb'])
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         tk_embedding = self.layer_emb(batch_data['tkidss'])
         cnn_hiddens = self.layer_cnn(tk_embedding)
-        loss = self.layer_grd.forward(cnn_hiddens, batch_data['lengths'], labelss, ignore_index=ignore_idx)
+        loss = self.layer_enh.forward(cnn_hiddens, batch_data['lengths'], labelss, ignore_index=ignore_idx)
         return loss
 
     def predict(self, batch_data: dict):
         tk_embedding = self.layer_emb(batch_data['tkidss'])
         cnn_hiddens = self.layer_cnn(tk_embedding)
-        list_tags = torch.argmax(self.layer_grd.predict(cnn_hiddens, batch_data['lengths']), dim=-1)
+        list_tags = torch.argmax(self.layer_enh.predict(cnn_hiddens, batch_data['lengths']), dim=-1)
         return list_tags
 
     def load_pretrained(self, pretrained_model_name_or_path):
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     exp_name = 'zh_cnn_grdb'
 
     exp_conf = ExpConfig(exp_name)
-    obj = ModelCNN_GRDB(exp_conf.mod_conf)
+    obj = ModelCNN_Cofe(exp_conf.mod_conf)
 
     ds = imp_exp_dataset(exp_name, 'TST')
     train_loader = DataLoader(dataset=ds, batch_size=2, shuffle=True, collate_fn=ds.collate)

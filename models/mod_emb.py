@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torchcrf import CRF
 
 from models.base import ExpModelBase
-from models.torch_utils import GreedyCellB, sequence_mask
+from models.torch_utils import EnhancedCell, sequence_mask
 
 
 class ModelEMB(ExpModelBase):
@@ -58,29 +58,29 @@ class ModelEMB_CRF(ModelEMB):
         return b_tag_seq
 
 
-class ModelEMB_GRDB(ExpModelBase):
+class ModelEMB_Cofe(ExpModelBase):
     def __init__(self, config):
-        super(ModelEMB_GRDB, self).__init__()
+        super(ModelEMB_Cofe, self).__init__()
         self.tag_size = config['tag_size']
         self.words_size = config['words_size']
         self.word_embedding_dim = config['word_embedding_dim']
         self.layer_emb = nn.Embedding(self.words_size, self.word_embedding_dim)
-        self.layer_grd = GreedyCellB(config['grdb'])
+        self.layer_enh = EnhancedCell(config['grdb'])
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         tk_embedding = self.layer_emb(batch_data['tkidss'])
-        loss = self.layer_grd.forward(tk_embedding, batch_data['lengths'], labelss, ignore_index=ignore_idx)
+        loss = self.layer_enh.forward(tk_embedding, batch_data['lengths'], labelss, ignore_index=ignore_idx)
         return loss
 
     def predict(self, batch_data: dict):
         tk_embedding = self.layer_emb(batch_data['tkidss'])
-        list_tags = torch.argmax(self.layer_grd.predict(tk_embedding, batch_data['lengths']), dim=-1)
+        list_tags = torch.argmax(self.layer_enh.predict(tk_embedding, batch_data['lengths']), dim=-1)
         return list_tags
 
     def predict_bs(self, batch_data: dict, beam_width=None):
         beam_width = 1 if beam_width is None else beam_width
         tk_embedding = self.layer_emb(batch_data['tkidss'])
-        return self.layer_grd.predict_bs(tk_embedding, batch_data['lengths'], beam_width)
+        return self.layer_enh.predict_bs(tk_embedding, batch_data['lengths'], beam_width)
 
     def load_pretrained(self, pretrained_model_name_or_path):
         return self

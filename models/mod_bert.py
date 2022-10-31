@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torchcrf import CRF
 
 from models.base import ExpModelBase
-from models.torch_utils import WordBert, GreedyCellB
+from models.torch_utils import WordBert, EnhancedCell
 from models.torch_utils import sequence_mask
 
 
@@ -59,25 +59,25 @@ class ModelBert_CRF(ModelBert):
         return b_tag_seq
 
 
-class ModelBert_GRDB(ExpModelBase):
+class ModelBert_Cofe(ExpModelBase):
     def __init__(self, config):
-        super(ModelBert_GRDB, self).__init__()
+        super(ModelBert_Cofe, self).__init__()
         self.tag_size = config['tag_size']
         self.words_dropout_prob = config['words_dropout_prob']
 
         self.layer_bert = WordBert(config['bert'])
         self.words_dropout = nn.Dropout(self.words_dropout_prob)
-        self.layer_grd = GreedyCellB(config['grdb'])
+        self.layer_enh = EnhancedCell(config['grdb'])
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         words_hidden = self.layer_bert(batch_data['tkidss'], batch_data['attention_mask'], batch_data['wdlens'])
         words_hidden = self.words_dropout(words_hidden)
-        loss = self.layer_grd.forward(words_hidden, batch_data['lengths'], labelss, ignore_index=ignore_idx)
+        loss = self.layer_enh.forward(words_hidden, batch_data['lengths'], labelss, ignore_index=ignore_idx)
         return loss
 
     def predict(self, batch_data: dict, output_weight=False, output_Z=False):
         words_hidden = self.layer_bert(batch_data['tkidss'], batch_data['attention_mask'], batch_data['wdlens'])
-        outputs = self.layer_grd.predict(words_hidden, batch_data['lengths'], output_weight=output_weight, output_Z=output_Z)
+        outputs = self.layer_enh.predict(words_hidden, batch_data['lengths'], output_weight=output_weight, output_Z=output_Z)
         if isinstance(outputs, tuple):
             return (torch.argmax(outputs[0], dim=-1), ) + outputs[1:]
         else:
@@ -85,7 +85,7 @@ class ModelBert_GRDB(ExpModelBase):
 
     def predict_bs(self, batch_data: dict, beam_width=None):
         words_hidden = self.layer_bert(batch_data['tkidss'], batch_data['attention_mask'], batch_data['wdlens'])
-        return self.layer_grd.predict_bs(words_hidden, batch_data['lengths'], beam_width)
+        return self.layer_enh.predict_bs(words_hidden, batch_data['lengths'], beam_width)
 
     def load_pretrained(self, pretrained_model_name_or_path):
         return self.layer_bert.load_pretrained(pretrained_model_name_or_path)
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     exp_name = 'en2f_bert_grdb'
 
     exp_conf = ExpConfig(exp_name)
-    obj = ModelBert_GRDB(exp_conf.mod_conf)
+    obj = ModelBert_Cofe(exp_conf.mod_conf)
 
     ds = imp_exp_dataset(exp_name, 'TST')
     train_loader = DataLoader(dataset=ds, batch_size=2, shuffle=True, collate_fn=ds.collate)
