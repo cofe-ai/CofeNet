@@ -223,6 +223,5 @@ venv.bak/
 .pyre/
 
 # Project files
-/res/
 /log/
 /conf/models/
