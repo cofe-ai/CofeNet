@@ -3,7 +3,7 @@
 # CofeNet
 CofeNet: Context and Former-Label Enhanced Net for Complicated Quotation Extraction
 
-CofeNet Detail Experiment [here](./cofenet-detail-exp.pdf)
+CofeNet Detail Experiment [here](./docs/cofenet-detail-exp.pdf)
 
 # Cite
 
