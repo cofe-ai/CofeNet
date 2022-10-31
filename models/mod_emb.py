@@ -65,7 +65,7 @@ class ModelEMB_Cofe(ExpModelBase):
         self.words_size = config['words_size']
         self.word_embedding_dim = config['word_embedding_dim']
         self.layer_emb = nn.Embedding(self.words_size, self.word_embedding_dim)
-        self.layer_enh = EnhancedCell(config['grdb'])
+        self.layer_enh = EnhancedCell(config['enh'])
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         tk_embedding = self.layer_emb(batch_data['tkidss'])

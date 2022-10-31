@@ -83,7 +83,7 @@ class ModelCNN_Cofe(ExpModelBase):
         self.words_emb_dropout = nn.Dropout(self.words_emb_dropout_prob)
         self.layer_cnn = SeqCNN(self.word_embedding_dim, self.cnn_channels, self.cnn_out_hidden_size, self.cnn_kernel_sizes, self.cnn_pool)
         self.words_rep_dropout = nn.Dropout(self.words_rep_dropout_prob)
-        self.layer_enh = EnhancedCell(config['grdb'])
+        self.layer_enh = EnhancedCell(config['enh'])
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         tk_embedding = self.layer_emb(batch_data['tkidss'])
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     from utils import *
     from data import imp_exp_dataset
 
-    exp_name = 'zh_cnn_grdb'
+    exp_name = 'zh_cnn_cofe'
 
     exp_conf = ExpConfig(exp_name)
     obj = ModelCNN_Cofe(exp_conf.mod_conf)

@@ -91,7 +91,7 @@ class ModelLSTM_Cofe(ExpModelBase):
                                       num_layers=self.lstm_num_layers, bias=True, bidirectional=self.lstm_bidirectional,
                                       dropout=self.lstm_dropout_prob)
         self.words_rep_dropout = nn.Dropout(self.words_rep_dropout_prob)
-        self.layer_enh = EnhancedCell(config['grdb'])
+        self.layer_enh = EnhancedCell(config['enh'])
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         tk_embedding = self.words_emb_dropout(self.layer_emb(batch_data['tkidss']))
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     from utils import *
     from data import imp_exp_dataset
 
-    exp_name = 'en2f_lstm_grdb'
+    exp_name = 'en2f_lstm_cofe'
 
     exp_conf = ExpConfig(exp_name)
     obj = ModelLSTM_Cofe(exp_conf.mod_conf)

@@ -67,7 +67,7 @@ class ModelBert_Cofe(ExpModelBase):
 
         self.layer_bert = WordBert(config['bert'])
         self.words_dropout = nn.Dropout(self.words_dropout_prob)
-        self.layer_enh = EnhancedCell(config['grdb'])
+        self.layer_enh = EnhancedCell(config['enh'])
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         words_hidden = self.layer_bert(batch_data['tkidss'], batch_data['attention_mask'], batch_data['wdlens'])
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     from utils import *
     from data import imp_exp_dataset
 
-    exp_name = 'en2f_bert_grdb'
+    exp_name = 'en2f_bert_cofe'
 
     exp_conf = ExpConfig(exp_name)
     obj = ModelBert_Cofe(exp_conf.mod_conf)
