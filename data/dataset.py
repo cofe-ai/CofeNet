@@ -20,7 +20,7 @@ class ExpDatasetBase(Dataset):
 
         # assert file_type in ['TRN', 'TST', 'VAL']
         self.file_type = file_type
-        if file_type in ['TRN', 'TST', 'VAL']:
+        if self.file_type in ['TRN', 'TST', 'VAL']:
             self.org_data = load_data_from_file(self.exp_conf.dat_file(self.file_type), self.exp_conf.max_seqs)
         else:
             self.org_data = load_data_from_file(self.file_type, self.exp_conf.max_seqs)
