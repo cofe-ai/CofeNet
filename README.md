@@ -1,7 +1,10 @@
-#Modifying, No release!!!
+# Modifying, DO NOT release now!!!
 
 # CofeNet
-CofeNet: Context and Former-Label Enhanced Net for Complicated Quotation Extraction
+This is the source code of COLING 2022 paper "CofeNet: Context and Former-Label Enhanced Net for Complicated Quotation Extraction".
+
+Quotation extraction aims to extract quotations from written text. There are three components in a quotation: _source_ refers to the holder of the quotation, _cue_ is the trigger word(s), and _content_ is the main body. Existing solutions for quotation extraction mainly utilize rulebased approaches and sequence labeling models. While rule-based approaches often lead to low recalls, sequence labeling models cannot well handle quotations with complicated structures. In this paper, we propose the **Co**ntext and **F**ormer-Label **E**nhanced **Net** (CofeNet) for quotation extraction. CofeNet is able to extract complicated quotations with components of variable lengths and complicated structures. On two public datasets (_i.e._, PolNeAR and Riqua) and one proprietary dataset (_i.e._, PoliticsZH), we show that our CofeNet achieves state-of-the-art performance on complicated quotation extraction.
+<p align="center"><img width="100%" src="docs/architecture.png" /></p>
 
 CofeNet Detail Experiment [here](./docs/cofenet-detail-exp.pdf)
 
