@@ -3,7 +3,7 @@ from tqdm import tqdm
 
 from torch.utils.data import Dataset
 from utils import *
-from data.vocab import VocabularyNormal, VocabularyBert
+from .vocab import VocabularyNormal, VocabularyBert
 
 
 class ExpDatasetBase(Dataset):

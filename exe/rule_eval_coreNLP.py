@@ -1,6 +1,6 @@
 from utils import *
-from exe.eval import evaluate_extraction
-from exe.executor import Executor
+from .eval import evaluate_extraction
+from .executor import Executor
 
 
 def match(tokens: list, target_str: str, lang: str, bng: int):

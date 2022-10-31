@@ -1,3 +1,3 @@
-from exe.trainer import Trainer
-from exe.executor import Executor
+from .trainer import Trainer
+from .executor import Executor
 

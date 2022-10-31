@@ -3,9 +3,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchcrf import CRF
 
-from models.base import ExpModelBase
-from models.torch_utils import WordBert
-from models.torch_utils import SeqCNN
+from .base import ExpModelBase
+from .torch_utils import WordBert
+from .torch_utils import SeqCNN
 
 
 class ModelBertCNN(ExpModelBase):
@@ -61,7 +61,7 @@ class ModelBertCNN_CRF(ModelBertCNN):
 
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         feats = self(batch_data)
-        log_likelihood = self.layer_crf.forward(feats, labelss, mask=batch_data['crfmasks'].byte(), reduction='mean')  # mean seq loss
+        log_likelihood = self.layer_crf.forward(feats, labelss, mask=batch_data['crfmasks'].byte(), reduction='mean')
         loss = -log_likelihood
         return loss
 

@@ -1,6 +1,6 @@
 from collections import Counter
 
-from utils.files import load_json_file_by_line, save_text_file_by_line
+from .files import load_json_file_by_line, save_text_file_by_line
 
 
 def load_data_from_file(file_path, max_length_text=-1):

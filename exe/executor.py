@@ -5,7 +5,7 @@ from torch.utils.data import SequentialSampler
 from sklearn.metrics import accuracy_score
 from data import SingleDataLoader
 
-from exe.eval import evaluate_extraction
+from .eval import evaluate_extraction
 from models import imp_exp_model
 from data import imp_exp_dataset
 from utils import *

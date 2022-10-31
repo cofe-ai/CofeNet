@@ -1,6 +1,6 @@
 import os
 
-from utils.data import create_vocabulary_from_files
+from .data import create_vocabulary_from_files
 
 
 def define_dir(*args):
@@ -15,7 +15,7 @@ def concat_path(*args):
     return os.path.abspath(os.path.join(*args))
 
 
-RES_DIR = define_dir(os.path.dirname(__file__), os.pardir, 'res')  # 数据文件根目录
+RES_DIR = define_dir(os.path.dirname(__file__), os.pardir, 'res')
 
 MAP_TYPE_NAME = {
     'TRN': 'train.txt',
@@ -47,7 +47,7 @@ def RES_DATA_FILE(dataset, file_type):
     return file_path
 
 
-CONF_DIR = define_dir(os.path.dirname(__file__), os.pardir, 'conf')  # 配置文件根目录
+CONF_DIR = define_dir(os.path.dirname(__file__), os.pardir, 'conf')
 CONF_SET_DIR = concat_path(CONF_DIR, 'setting')
 CONF_MOD_DIR = concat_path(CONF_DIR, 'models')
 
@@ -74,7 +74,7 @@ def CONF_MOD_EXP_DIR_VOCAB_E(exp_name: str):
     return define_dir(CONF_MOD_EXP_DIR(exp_name), 'vocab_e')
 
 
-LOG_DIR = define_dir(os.path.dirname(__file__), os.pardir, 'log')  # 配置文件根目录
+LOG_DIR = define_dir(os.path.dirname(__file__), os.pardir, 'log')
 
 if __name__ == '__main__':
     print(RES_DATA_FILE('zh', 'VOC'))

@@ -1,5 +1,5 @@
-from data.dataset import *
-from data.loader import SingleDataLoader
+from .dataset import *
+from .loader import SingleDataLoader
 
 
 def imp_exp_dataset(exp_conf, file_type, device=None) -> ExpDatasetBase:

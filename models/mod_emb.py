@@ -3,8 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchcrf import CRF
 
-from models.base import ExpModelBase
-from models.torch_utils import EnhancedCell, sequence_mask
+from .base import ExpModelBase
+from .torch_utils import EnhancedCell, sequence_mask
 
 
 class ModelEMB(ExpModelBase):
@@ -44,10 +44,10 @@ class ModelEMB_CRF(ModelEMB):
         super(ModelEMB_CRF, self).__init__(config)
         self.layer_crf = CRF(self.tag_size, batch_first=True)
 
-    def forward_loss(self, batch_data, labelss, ignore_idx=-1):  # neg_log_likelihood
+    def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         feats = self(batch_data)
         seq_mask = sequence_mask(batch_data['lengths']).float()
-        log_likelihood = self.layer_crf.forward(feats, labelss, mask=seq_mask.byte(), reduction='mean')  # mean seq loss
+        log_likelihood = self.layer_crf.forward(feats, labelss, mask=seq_mask.byte(), reduction='mean')
         loss = -log_likelihood
         return loss
 

@@ -1,5 +1,5 @@
-from utils.path import *
-from utils.files import *
+from .path import *
+from .files import *
 
 
 class ExpConfig(object):

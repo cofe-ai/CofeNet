@@ -5,8 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 
-from models.torch_utils.rnn import DynamicLSTM
-from models.torch_utils.funs import Gelu, sequence_mask
+from .funs import Gelu
 
 
 class EnhancedCell(nn.Module):

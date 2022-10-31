@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from pytorch_transformers import BertModel, BertConfig
-from models.torch_utils.funs import *
+from .funs import *
 
 
 class WordBert(nn.Module):

@@ -3,10 +3,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchcrf import CRF
 
-from models.base import ExpModelBase
-from models.torch_utils import WordBert
-from models.torch_utils import DynamicLSTM
-from models.torch_utils import sequence_mask
+from .base import ExpModelBase
+from .torch_utils import WordBert
+from .torch_utils import DynamicLSTM
+from .torch_utils import sequence_mask
 
 
 class ModelBertLSTM(ExpModelBase):
@@ -61,7 +61,7 @@ class ModelBertLSTM_CRF(ModelBertLSTM):
     def forward_loss(self, batch_data, labelss, ignore_idx=-1):
         feats = self(batch_data)
         seq_mask = sequence_mask(batch_data['lengths']).float()
-        log_likelihood = self.layer_crf.forward(feats, labelss, mask=seq_mask.byte(), reduction='mean')  # mean seq loss
+        log_likelihood = self.layer_crf.forward(feats, labelss, mask=seq_mask.byte(), reduction='mean')
         loss = -log_likelihood
         return loss
 
