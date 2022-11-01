@@ -1,6 +1,6 @@
 {
-  "dat_name": "polnear-v2-fixed",
-  "mod_name": "ModelBert",
+  "dat_name": "polnear",
+  "mod_name": "ModelBert_CRF",
   "dat_model": "DatasetBert",
   "bert_pretrained": "bert-base-uncased",
   "max_seqs": 300,

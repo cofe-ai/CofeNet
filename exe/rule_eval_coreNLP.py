@@ -67,13 +67,13 @@ def eval_dataset(dataset: str, lang: str = 'en'):
 
     return evaluate_extraction(labels, preds)
 
-# polnear-v2-fixed
-print('polnear-v2-fixed')
-print(Executor.format_result(eval_dataset('polnear-v2-fixed', 'en'), markdown_table=True))
+# polnear
+print('polnear')
+print(Executor.format_result(eval_dataset('polnear', 'en'), markdown_table=True))
 
 # riqua
-print('riqua2')
-print(Executor.format_result(eval_dataset('riqua2', 'en'), markdown_table=True))
+print('riqua')
+print(Executor.format_result(eval_dataset('riqua', 'en'), markdown_table=True))
 
 # zh
 print('zh')

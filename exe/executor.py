@@ -471,7 +471,7 @@ if __name__ == '__main__':
     # WEIGHT en2f 1 case
     # mod = Executor('en2f_bert_grdb', None).load_model()
     # preds, labels, all_weights = mod.save_single_case_weight_by_cofe(
-    #     '/Users/lixiang/PycharmProjects/discourse/res/polnear-v2-fixed/oth.txt',
+    #     '/Users/lixiang/PycharmProjects/discourse/res/polnear/oth.txt',
     #     '/Users/lixiang/PycharmProjects/discourse/log/en2f_single_weight.xlsx'
     # )
 

@@ -7,8 +7,8 @@ This is the source code of COLING 2022 paper "CofeNet: Context and Former-Label 
 **Abstract**: Quotation extraction aims to extract quotations from written text. There are three components in a quotation: _source_ refers to the holder of the quotation, _cue_ is the trigger word(s), and _content_ is the main body. Existing solutions for quotation extraction mainly utilize rulebased approaches and sequence labeling models. While rule-based approaches often lead to low recalls, sequence labeling models cannot well handle quotations with complicated structures. In this paper, we propose the **Co**ntext and **F**ormer-Label **E**nhanced **Net** (CofeNet) for quotation extraction. CofeNet is able to extract complicated quotations with components of variable lengths and complicated structures. On two public datasets (_i.e._, PolNeAR and Riqua) and one proprietary dataset (_i.e._, PoliticsZH), we show that our CofeNet achieves state-of-the-art performance on complicated quotation extraction.
 <p align="center"><img width="100%" src="docs/architecture.png" /></p>
 
-# Setup
-* Environment settings
+# 1. Setup
+## 1.1 Environment
 ```
 # Python version==3.7
 git clone https://github.com/cofe-ai/CofeNet.git
@@ -16,18 +16,49 @@ cd CofeNet
 pip install -r requirements.txt
 ```
 
-* Data resource settings
+## 1.2 Datasets
+The data set is in the `./res` directory. Here we give two datasets `polnear` and `riqua` in our [paper](https://aclanthology.org/2022.coling-1.215/). You can store other datasets here for the framework to read.
+```
+./res
+├── polnear
+│   ├── tag.txt
+│   ├── test.txt
+│   ├── train.txt
+│   ├── valid.txt
+│   └── voc.txt
+├── riqua
+│   ├── tag.txt
+│   ├── test.txt
+│   ├── train.txt
+│   ├── valid.txt
+│   └── voc.txt
+├── others
+└── ...
+```
+If you want to use other datasets, you need to build 5 files for each dataset. The file names do not change:
+* `train.txt`, `test.txt`, `valid.txt`: Structured Dataset.
 
-TODO: 数据集下载和配置
+Each item of data is stored in rows by json. The label "tokens" is the text sequence after word segmentation, and "labels" is the corresponding sequence label tag.
+```json
+{
+  "tokens": ["WikiLeaks", "claims", "`", "state", "party", "'", "cut", "Assange", "'s", "internet", "connection", "."], 
+  "labels": ["B-source", "B-cue", "B-content", "I-content", "I-content", "I-content", "I-content", "I-content", "I-content", "I-content", "I-content", "O"]
+}
+```
+* `tag.txt`: The set of "labels" in the dataset.
+* `voc.txt`: Tokens vocabulary for non-pretrained model.
 
-# Run
+## 1.3 Experiment Configure
+Experiment parameters are configured through files (but not training process settings, such as batch_size),in the `./conf/setting` directory.
+
+# 2. Run
 
 TODO: 快速执行代码：训练 & 评估
 
-# Experiment
+# 3. Experiment
 CofeNet Detail Experiment [here](./docs/cofenet-detail-exp.pdf)
 
-# Cite
+# 4. Cite
 
 If the code or data help you, please cite the following paper.
 

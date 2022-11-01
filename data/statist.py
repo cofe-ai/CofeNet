@@ -91,6 +91,6 @@ def statist_dataset(dataset_name):
     print('')
 
 
-statist_dataset('polnear-v2-fixed')
-statist_dataset('riqua2')
+statist_dataset('polnear')
+statist_dataset('riqua')
 statist_dataset('zh')

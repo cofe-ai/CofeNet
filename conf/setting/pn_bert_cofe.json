@@ -1,11 +1,29 @@
 {
-  "dat_name": "polnear-v2-fixed",
-  "mod_name": "ModelBert_CRF",
+  "dat_name": "polnear",
+  "mod_name": "ModelBert_Cofe",
   "dat_model": "DatasetBert",
   "bert_pretrained": "bert-base-uncased",
   "max_seqs": 300,
   "mod_conf": {
     "tag_size": 7,
+    "words_dropout_prob": 0.5,
+    "enh": {
+      "tag_size": 7,
+      "random_seed": 2021,
+      "true_pred_rand_prob": [0.5, 0.4, 0.1],
+      "hidden_act": "gelu",
+      "num_pre_preds": 1,
+      "num_pre_tokens": 3,
+      "num_nxt_tokens": 3,
+      "in_hidden_size": 768,
+      "hidden_size": 100,
+      "pred_embedding_dim": 100,
+      "fc_pe_dropout_prob": 0.5,
+      "fc_hc_dropout_prob": 0.5,
+      "fc_hp_dropout_prob": 0.5,
+      "fc_hn_dropout_prob": 0.5
+    }
+,
     "bert": {
       "architectures": [
         "BertForMaskedLM"

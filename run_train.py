@@ -7,7 +7,7 @@ from exe import Trainer
 from utils import set_global_rand_seed
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--exp_name", type=str, default='zh_lstm')
+parser.add_argument("--exp_name", type=str, default='pn_bert_cofe')
 parser.add_argument("--trn_name", type=str, default='v1')
 
 parser.add_argument("--gpu", type=int, default=None)
