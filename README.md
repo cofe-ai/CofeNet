@@ -41,15 +41,13 @@ The data set is in the `./res` directory. Here we give two datasets `polnear` an
 If you want to use other datasets, you need to build 5 files for each dataset. The file names do not change:
 * `train.txt`, `test.txt`, `valid.txt`: Structured Dataset.
 
-Each item of data is stored in rows by json. The label "tokens" is the text sequence after word segmentation, and "labels" is the corresponding sequence label tag.
+Each item of data is stored in a line by json. The label "tokens" is the text words sequence, and "labels" is the corresponding sequence label tag.
 ```json
-{
-  "tokens": ["WikiLeaks", "claims", "`", "state", "party", "'", "cut", "Assange", "'s", "internet", "connection", "."], 
-  "labels": ["B-source", "B-cue", "B-content", "I-content", "I-content", "I-content", "I-content", "I-content", "I-content", "I-content", "I-content", "O"]
-}
+{"tokens": ["WikiLeaks", "claims", "`", "state", ...], "labels": ["B-source", "B-cue", "B-content", "I-content", ...]}
 ```
+
 * `tag.txt`: The set of "labels" in the dataset.
-* `voc.txt`: Tokens vocabulary for non-pretrained model.
+* `voc.txt`: Tokens vocabulary for non-pretrained model(_i.e._, LSTM).
 
 ## 1.3 Experiment Configure
 
