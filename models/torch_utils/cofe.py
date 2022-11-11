@@ -30,14 +30,14 @@ class EnhancedCell(nn.Module):
         self.decay_ctrl = config.get('decay_ctrl', True)
         self.attention_ctrl = config.get('attention_ctrl', True)
         self.y_enable = config.get('y_enable', True)
-        self.p_enable = config.get('p_enable', True)
+        self.f_enable = config.get('f_enable', True)
         self.c_enable = config.get('c_enable', True)
-        self.n_enable = config.get('n_enable', True)
+        self.l_enable = config.get('l_enable', True)
 
-        self.fc_pe_dropout_prob = config['fc_pe_dropout_prob']
+        self.fc_hy_dropout_prob = config['fc_hy_dropout_prob']
         self.fc_hc_dropout_prob = config['fc_hc_dropout_prob']
-        self.fc_hp_dropout_prob = config['fc_hp_dropout_prob']
-        self.fc_hn_dropout_prob = config['fc_hn_dropout_prob']
+        self.fc_hf_dropout_prob = config['fc_hf_dropout_prob']
+        self.fc_hl_dropout_prob = config['fc_hl_dropout_prob']
 
         self.rand = random.Random(self.random_seed)
 
@@ -45,10 +45,10 @@ class EnhancedCell(nn.Module):
         self.feats_pad_bng = nn.Parameter(torch.empty(1, 1, self.in_hidden_size))
         self.feats_pad_end = nn.Parameter(torch.empty(1, 1, self.in_hidden_size))
 
-        self.fc_pe = nn.Sequential(
+        self.fc_hy = nn.Sequential(
             nn.Linear(self.pred_embedding_dim * self.num_pre_preds, self.hidden_size),
             nn.ReLU(True) if self.act_fn == 'relu' else Gelu(),
-            nn.Dropout(self.fc_pe_dropout_prob)
+            nn.Dropout(self.fc_hy_dropout_prob)
         )
 
         self.fc_hc = nn.Sequential(
@@ -57,22 +57,22 @@ class EnhancedCell(nn.Module):
             nn.Dropout(self.fc_hc_dropout_prob)
         )
 
-        self.fc_hp = nn.Sequential(
+        self.fc_hf = nn.Sequential(
             nn.Linear(self.in_hidden_size * self.num_pre_tokens, self.hidden_size),
             nn.ReLU(True) if self.act_fn == 'relu' else Gelu(),
-            nn.Dropout(self.fc_hp_dropout_prob)
+            nn.Dropout(self.fc_hf_dropout_prob)
         )
 
-        self.fc_hn = nn.Sequential(
+        self.fc_hl = nn.Sequential(
             nn.Linear(self.in_hidden_size * self.num_nxt_tokens, self.hidden_size),
             nn.ReLU(True) if self.act_fn == 'relu' else Gelu(),
-            nn.Dropout(self.fc_hn_dropout_prob)
+            nn.Dropout(self.fc_hl_dropout_prob)
         )
 
-        self.Z_pe = nn.Sequential(nn.Linear(self.hidden_size * 2, self.hidden_size), nn.Sigmoid())
+        self.Z_hy = nn.Sequential(nn.Linear(self.hidden_size * 2, self.hidden_size), nn.Sigmoid())
         self.Z_hc = nn.Sequential(nn.Linear(self.hidden_size * 2, self.hidden_size), nn.Sigmoid())
-        self.Z_hp = nn.Sequential(nn.Linear(self.hidden_size * 2, self.hidden_size), nn.Sigmoid())
-        self.Z_hn = nn.Sequential(nn.Linear(self.hidden_size * 2, self.hidden_size), nn.Sigmoid())
+        self.Z_hf = nn.Sequential(nn.Linear(self.hidden_size * 2, self.hidden_size), nn.Sigmoid())
+        self.Z_hl = nn.Sequential(nn.Linear(self.hidden_size * 2, self.hidden_size), nn.Sigmoid())
 
         self.Z_att = nn.Sequential(nn.Linear(self.hidden_size * 2, 4), nn.Softmax())
 
@@ -130,7 +130,7 @@ class EnhancedCell(nn.Module):
             feat_seq = seq + self.num_pre_tokens
             pred_seq = seq + self.num_pre_preds
 
-            # pe
+            # hy
             rand = self.rand.random()
             if rand < self.true_pred_rand_prob[0]:  # true
                 pred_e = true_embs[:, pred_seq - self.num_pre_preds: pred_seq, :].reshape((batch_size, -1))
@@ -139,39 +139,39 @@ class EnhancedCell(nn.Module):
             else:  # rand
                 rand_tags = torch.randint(high=self.tag_size, size=(batch_size, self.num_pre_preds), device=device)
                 pred_e = self.layer_pred_emb(rand_tags).reshape((batch_size, -1))
-            pe = self.fc_pe(pred_e)
+            hy = self.fc_hy(pred_e)
 
-            # hp
-            hp = self.fc_hp(feats[:, feat_seq - self.num_pre_tokens: feat_seq, :].reshape((batch_size, -1)))
+            # hf
+            hf = self.fc_hf(feats[:, feat_seq - self.num_pre_tokens: feat_seq, :].reshape((batch_size, -1)))
 
             # hc
             hc = self.fc_hc(feats[:, feat_seq, :])
 
-            # hn
-            hn = self.fc_hn(feats[:, feat_seq + 1: feat_seq + 1 + self.num_nxt_tokens, :].reshape((batch_size, -1)))
+            # hl
+            hl = self.fc_hl(feats[:, feat_seq + 1: feat_seq + 1 + self.num_nxt_tokens, :].reshape((batch_size, -1)))
 
             if not self.y_enable:
-                pe = torch.zeros_like(pe, dtype=pe.dtype, device=device)
-            if not self.p_enable:
-                hp = torch.zeros_like(hp, dtype=hp.dtype, device=device)
+                hy = torch.zeros_like(hy, dtype=hy.dtype, device=device)
+            if not self.f_enable:
+                hf = torch.zeros_like(hf, dtype=hf.dtype, device=device)
             if not self.c_enable:
                 hc = torch.zeros_like(hc, dtype=hc.dtype, device=device)
-            if not self.n_enable:
-                hn = torch.zeros_like(hn, dtype=hn.dtype, device=device)
+            if not self.l_enable:
+                hl = torch.zeros_like(hl, dtype=hl.dtype, device=device)
 
-            cat_pe_hc = torch.cat((pe, hc), dim=-1)
+            cat_hy_hc = torch.cat((hy, hc), dim=-1)
 
             # att
-            att = self.Z_att(cat_pe_hc)
+            att = self.Z_att(cat_hy_hc)
             if not self.attention_ctrl:
                 att = torch.ones_like(att, dtype=att.dtype, device=device)
 
             # Z
             if self.decay_ctrl:
-                hidden = pe * self.Z_pe(cat_pe_hc) * att[:, 0: 1] + hp * self.Z_hp(cat_pe_hc) * att[:, 1: 2] + \
-                         hc * self.Z_hc(cat_pe_hc) * att[:, 2: 3] + hn * self.Z_hn(cat_pe_hc) * att[:, 3: 4]
+                hidden = hy * self.Z_hy(cat_hy_hc) * att[:, 0: 1] + hf * self.Z_hf(cat_hy_hc) * att[:, 1: 2] + \
+                         hc * self.Z_hc(cat_hy_hc) * att[:, 2: 3] + hl * self.Z_hl(cat_hy_hc) * att[:, 3: 4]
             else:
-                hidden = pe * att[:, 0: 1] + hp * att[:, 1: 2] + hc * att[:, 2: 3] + hn * att[:, 3: 4]
+                hidden = hy * att[:, 0: 1] + hf * att[:, 1: 2] + hc * att[:, 2: 3] + hl * att[:, 3: 4]
             cur_prob = self.layer_out(hidden)
             probs = cur_prob.unsqueeze(1) if probs is None else torch.cat((probs, cur_prob.unsqueeze(1)), dim=1)
 
@@ -197,37 +197,37 @@ class EnhancedCell(nn.Module):
         if output_weight:
             weigths = None
         if self.decay_ctrl and output_Z:
-            Zpes, Zhps, Zhcs, Zhns = None, None, None, None
+            Zhys, Zhfs, Zhcs, Zhls = None, None, None, None
 
         for seq in range(seq_length):
             feat_seq = seq + self.num_pre_tokens
             pred_seq = seq + self.num_pre_preds
 
-            # pe
-            pe = self.fc_pe(pred_embs[:, pred_seq - self.num_pre_preds: pred_seq, :].reshape((batch_size, -1)))
+            # hy
+            hy = self.fc_hy(pred_embs[:, pred_seq - self.num_pre_preds: pred_seq, :].reshape((batch_size, -1)))
 
-            # hp
-            hp = self.fc_hp(feats[:, feat_seq - self.num_pre_tokens: feat_seq, :].reshape((batch_size, -1)))
+            # hf
+            hf = self.fc_hf(feats[:, feat_seq - self.num_pre_tokens: feat_seq, :].reshape((batch_size, -1)))
 
             # hc
             hc = self.fc_hc(feats[:, feat_seq, :])
 
-            # hn
-            hn = self.fc_hn(feats[:, feat_seq + 1: feat_seq + 1 + self.num_nxt_tokens, :].reshape((batch_size, -1)))
+            # hl
+            hl = self.fc_hl(feats[:, feat_seq + 1: feat_seq + 1 + self.num_nxt_tokens, :].reshape((batch_size, -1)))
 
             if not self.y_enable:
-                pe = torch.zeros_like(pe, dtype=pe.dtype, device=device)
-            if not self.p_enable:
-                hp = torch.zeros_like(hp, dtype=hp.dtype, device=device)
+                hy = torch.zeros_like(hy, dtype=hy.dtype, device=device)
+            if not self.f_enable:
+                hf = torch.zeros_like(hf, dtype=hf.dtype, device=device)
             if not self.c_enable:
                 hc = torch.zeros_like(hc, dtype=hc.dtype, device=device)
-            if not self.n_enable:
-                hn = torch.zeros_like(hn, dtype=hn.dtype, device=device)
+            if not self.l_enable:
+                hl = torch.zeros_like(hl, dtype=hl.dtype, device=device)
 
-            cat_pe_hc = torch.cat((pe, hc), dim=-1)
+            cat_hy_hc = torch.cat((hy, hc), dim=-1)
 
             # att
-            att = self.Z_att(cat_pe_hc)
+            att = self.Z_att(cat_hy_hc)
             if not self.attention_ctrl:
                 att = torch.ones_like(att, dtype=att.dtype, device=device)
 
@@ -236,18 +236,18 @@ class EnhancedCell(nn.Module):
 
             # Z
             if self.decay_ctrl:
-                Zpe = self.Z_pe(cat_pe_hc)
-                Zhp = self.Z_hp(cat_pe_hc)
-                Zhc = self.Z_hc(cat_pe_hc)
-                Zhn = self.Z_hn(cat_pe_hc)
-                hidden = pe * Zpe * att[:, 0: 1] + hp * Zhp * att[:, 1: 2] + hc * Zhc * att[:, 2: 3] + hn * Zhn * att[:, 3: 4]
+                Zhy = self.Z_hy(cat_hy_hc)
+                Zhf = self.Z_hf(cat_hy_hc)
+                Zhc = self.Z_hc(cat_hy_hc)
+                Zhl = self.Z_hl(cat_hy_hc)
+                hidden = hy * Zhy * att[:, 0: 1] + hf * Zhf * att[:, 1: 2] + hc * Zhc * att[:, 2: 3] + hl * Zhl * att[:, 3: 4]
                 if output_Z:
-                    Zpes = Zpe.unsqueeze(1) if Zpes is None else torch.cat((Zpes, Zpe.unsqueeze(1)), dim=1)
-                    Zhps = Zhp.unsqueeze(1) if Zhps is None else torch.cat((Zhps, Zhp.unsqueeze(1)), dim=1)
+                    Zhys = Zhy.unsqueeze(1) if Zhys is None else torch.cat((Zhys, Zhy.unsqueeze(1)), dim=1)
+                    Zhfs = Zhf.unsqueeze(1) if Zhfs is None else torch.cat((Zhfs, Zhf.unsqueeze(1)), dim=1)
                     Zhcs = Zhc.unsqueeze(1) if Zhcs is None else torch.cat((Zhcs, Zhc.unsqueeze(1)), dim=1)
-                    Zhns = Zhn.unsqueeze(1) if Zhns is None else torch.cat((Zhns, Zhn.unsqueeze(1)), dim=1)
+                    Zhls = Zhl.unsqueeze(1) if Zhls is None else torch.cat((Zhls, Zhl.unsqueeze(1)), dim=1)
             else:
-                hidden = pe * att[:, 0: 1] + hp * att[:, 1: 2] + hc * att[:, 2: 3] + hn * att[:, 3: 4]
+                hidden = hy * att[:, 0: 1] + hf * att[:, 1: 2] + hc * att[:, 2: 3] + hl * att[:, 3: 4]
             cur_prob = self.layer_out(hidden)
             probs = cur_prob.unsqueeze(1) if probs is None else torch.cat((probs, cur_prob.unsqueeze(1)), dim=1)
 
@@ -264,7 +264,7 @@ class EnhancedCell(nn.Module):
         if self.decay_ctrl and output_Z:
             if not isinstance(outputs, tuple):
                 outputs = (outputs, )
-            outputs += (Zpes, Zhps, Zhcs, Zhns, )
+            outputs += (Zhys, Zhfs, Zhcs, Zhls, )
 
         return outputs
 
@@ -291,23 +291,23 @@ class EnhancedCell(nn.Module):
                 seq_p = seq + self.num_pre_preds
 
                 ft = feats[bat: bat + 1, :, :]
-                # hp
-                hp = self.fc_hp(ft[:, seq_f - self.num_pre_tokens: seq_f, :].reshape((1, -1))).repeat((beam_width, 1))
+                # hf
+                hf = self.fc_hf(ft[:, seq_f - self.num_pre_tokens: seq_f, :].reshape((1, -1))).repeat((beam_width, 1))
                 # hc
                 hc = self.fc_hc(ft[:, seq_f, :]).repeat((beam_width, 1))
-                # hn
-                hn = self.fc_hn(ft[:, seq_f + 1: seq_f + 1 + self.num_nxt_tokens, :].reshape((1, -1))).repeat((beam_width, 1))
+                # hl
+                hl = self.fc_hl(ft[:, seq_f + 1: seq_f + 1 + self.num_nxt_tokens, :].reshape((1, -1))).repeat((beam_width, 1))
 
-                # pe
-                pe = self.fc_pe(bat_pred_embs_bs[:, seq_p - self.num_pre_preds: seq_p, :].reshape((beam_width, -1)))
-                cat_pe_hc = torch.cat((pe, hc), dim=-1)
+                # hy
+                hy = self.fc_hy(bat_pred_embs_bs[:, seq_p - self.num_pre_preds: seq_p, :].reshape((beam_width, -1)))
+                cat_hy_hc = torch.cat((hy, hc), dim=-1)
 
                 # att
-                att = self.Z_att(cat_pe_hc)
+                att = self.Z_att(cat_hy_hc)
 
                 # Z
-                hidden = pe * self.Z_pe(cat_pe_hc) * att[:, 0: 1] + hp * self.Z_hp(cat_pe_hc) * att[:, 1: 2] + \
-                         hc * self.Z_hc(cat_pe_hc) * att[:, 2: 3] + hn * self.Z_hn(cat_pe_hc) * att[:, 3: 4]
+                hidden = hy * self.Z_hy(cat_hy_hc) * att[:, 0: 1] + hf * self.Z_hf(cat_hy_hc) * att[:, 1: 2] + \
+                         hc * self.Z_hc(cat_hy_hc) * att[:, 2: 3] + hl * self.Z_hl(cat_hy_hc) * att[:, 3: 4]
                 bat_cur_prob_bs = torch.softmax(self.layer_out(hidden), dim=-1)
                 if seq == 0:
                     bat_cur_prob_bs = bat_cur_prob_bs[0: 1, ...]

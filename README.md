@@ -53,7 +53,22 @@ Experiment parameters are configured through files (but not training process set
 
 # 2. Run
 
-TODO: 快速执行代码：训练 & 评估
+## 2.1 Train
+```bash
+python run_train.py --exp_name pn_bert --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
+python run_train.py --exp_name pn_bert_crf --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
+python run_train.py --exp_name pn_bert_cofe --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
+```
+
+## 2.2 Evaluate
+```bash
+python run_eval.py --exp_name pn_bert_cofe --gpu 0
+python run_eval.py --exp_name pn_bert_cofe --gpu 0
+python run_eval.py --exp_name pn_bert_cofe --gpu 0
+```
+
+## 2.3 Download the trained model
+TODO: 
 
 # 3. Experiment
 CofeNet Detail Experiment [here](./docs/cofenet-detail-exp.pdf)
