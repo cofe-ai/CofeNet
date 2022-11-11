@@ -17,7 +17,9 @@ pip install -r requirements.txt
 ```
 
 ## 1.2 Datasets
+
 The data set is in the `./res` directory. Here we give two datasets `polnear` and `riqua` in our [paper](https://aclanthology.org/2022.coling-1.215/). You can store other datasets here for the framework to read.
+
 ```
 ./res
 ├── polnear
@@ -35,6 +37,7 @@ The data set is in the `./res` directory. Here we give two datasets `polnear` an
 ├── others
 └── ...
 ```
+
 If you want to use other datasets, you need to build 5 files for each dataset. The file names do not change:
 * `train.txt`, `test.txt`, `valid.txt`: Structured Dataset.
 
@@ -49,6 +52,7 @@ Each item of data is stored in rows by json. The label "tokens" is the text sequ
 * `voc.txt`: Tokens vocabulary for non-pretrained model.
 
 ## 1.3 Experiment Configure
+
 Configuration files are stored in the `conf/setting` directory. Here we give the experimental configuration in the paper so that you can quickly reproduce the experimental results. You can also configure your experiments here.
 
 | exp_name        | dateset  |   model   |
@@ -65,6 +69,7 @@ TODO:
 ## 2.1 Train
 
 1. Run the code
+
 ```bash
 python run_train.py --exp_name pn_bert --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
 python run_train.py --exp_name pn_bert_crf --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
@@ -72,12 +77,14 @@ python run_train.py --exp_name pn_bert_cofe --eval_per_step 500 --max_epoch 6 --
 ```
 
 2. Check log
+
 You can find log files in `./log`. For a set of experiments, here you can find the files:
 * Parameter Configuration (_i.e._, `pn_bert_cofe_v1_20221101_040732.json`)
 * Training Log (_i.e._, `pn_bert_cofe_v1_20221101_040732.txt`)
 * Tensorboard Files (_i.e._, `pn_bert_cofe_v1_20221101_040732/`)
 
 3. Run Tensorboard
+
 ```bash
 tensorboard --bind_all --port 9900 --logdir ./log
 ```
@@ -93,6 +100,7 @@ python run_eval.py --exp_name pn_bert_cofe --gpu 0
 ```
 
 # 3. Experiment
+
 CofeNet Detail Experiment [here](./docs/cofenet-detail-exp.pdf)
 
 # 4. Cite
