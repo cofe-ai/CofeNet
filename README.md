@@ -51,13 +51,17 @@ Each item of data is stored in a line by json. The label "tokens" is the text wo
 
 ## 1.3 Experiment Configure
 
-Configuration files are stored in the `conf/setting` directory. Here we give the experimental configuration in the paper so that you can quickly reproduce the experimental results. You can also configure your experiments here.
+Configuration files are stored in the `conf/setting` directory. Here we give the experimental configuration's name(`exp_name`) in the [paper](https://aclanthology.org/2022.coling-1.215/) so that you can quickly reproduce the experimental results. You can also configure your experiments here.
 
-| exp_name        | dateset  |   model   |
-|:----------------|:--------:|:---------:|
-| pn_bert         | polnear  |   BERT    |
-| pn_bert_crf     | polnear  | BERT-CRF  |
-| pn_bert_cofe    | polnear  | BERT-Cofe |
+| Base Model | Dateset | Base        |    with CRF     | with Cofe        |
+|:-----------|:-------:|-------------|:---------------:|------------------|
+| CRF        | polnear | `pn_cnn`    |  `pn_cnn_crf`   | `pn_cnn_cofe`    |
+| CNN        | polnear | `pn_cnn`    |  `pn_cnn_crf`   | `pn_cnn_cofe`    |
+| LSTM       | polnear | `pn_lstm`   |  `pn_lstm_crf`  | `pn_lstm_cofe`   |
+| GRU        | polnear | `pn_gru`    |  `pn_gru_crf`   | `pn_gru_cofe`    |
+| BiLSTM     | polnear | `pn_blstm`  | `pn_blstm_crf`  | `pn_blstm_cofe`  |
+| BiLSTM L2  | polnear | `pn_blstm2` | `pn_blstm2_crf` | `pn_blstm2_cofe` |
+| BERT       | polnear | `pn_bert`   |  `pn_bert_crf`  | `pn_bert_cofe`   |
 
 ## 1.4 Trained model
 TODO: 
