@@ -1,0 +1,15 @@
+{
+  "dat_name": "polnear",
+  "mod_name": "ModelGRU",
+  "dat_model": "DatasetLSTM",
+  "max_seqs": 300,
+  "mod_conf": {
+    "tag_size": 7,
+    "words_size": 5000,
+    "word_embedding_dim": 300,
+    "gru_hidden_size": 300,
+    "gru_bidirectional": false,
+    "gru_num_layers": 1,
+    "gru_dropout": 0.0
+  }
+}

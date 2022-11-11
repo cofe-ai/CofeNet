@@ -1,0 +1,15 @@
+{
+  "dat_name": "polnear",
+  "mod_name": "ModelCNN",
+  "dat_model": "DatasetLSTM",
+  "max_seqs": 300,
+  "mod_conf": {
+    "tag_size": 7,
+    "words_size": 5000,
+    "word_embedding_dim": 300,
+    "cnn_channels": 300,
+    "cnn_out_hidden_size": 300,
+    "cnn_pool": "avg",
+    "cnn_kernel_sizes": [1, 3, 5]
+  }
+}

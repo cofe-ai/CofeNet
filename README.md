@@ -69,9 +69,13 @@ TODO:
 1. Run the code
 
 ```bash
-python run_train.py --exp_name pn_bert --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
-python run_train.py --exp_name pn_bert_crf --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
-python run_train.py --exp_name pn_bert_cofe --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
+python run_train.py --exp_name pn_emb_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
+python run_train.py --exp_name pn_cnn_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
+python run_train.py --exp_name pn_gru_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
+python run_train.py --exp_name pn_lstm_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
+python run_train.py --exp_name pn_blstm_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
+python run_train.py --exp_name pn_blstm2_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
+python run_train.py --exp_name pn_bert_cofe --trn_name v1 --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
 ```
 
 2. Check log
