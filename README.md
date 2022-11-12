@@ -67,7 +67,8 @@ Configuration files are stored in the `conf/setting` directory. Here we give the
 | BERT-BiLSTM| polnear | `pn_bert_blstm`  |  `pn_bert_blstm_crf` |                  | riqua   | `rq_bert_blstm`  |  `rq_bert_blstm_crf` |                  |
 
 ## 1.4 Trained model
-TODO: 
+
+Download the [trained model](https://drive.google.com/drive/folders/1sU7m3e9lZABq_bLsDWjoeUV3QPX01Glc?usp=sharing). Save in `./conf/models`. Reproduce our results by [2.2 Evaluate](##2.2 Evaluate).
 
 # 2. Run
 
