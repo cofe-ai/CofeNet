@@ -52,7 +52,7 @@ Each item of data is stored in a line by json. The label "tokens" is the text wo
 Configuration files are stored in the `conf/setting` directory. Here we give the experimental configuration's name(`exp_name`) in the [paper](https://aclanthology.org/2022.coling-1.215/) so that you can quickly reproduce the experimental results. You can also configure your experiments here.
 
 | Base Model | Dateset | Base             |    with CRF          | with Cofe        | Dateset | Base             |    with CRF          | with Cofe        |
-|:-----------|:-------:|------------------|:--------------------:|------------------|:-------:|------------------|:--------------------:|------------------|
+|:-----------|:-------:|------------------|:---------------------|------------------|:-------:|------------------|:---------------------|------------------|
 | Embedding  | polnear | `pn_emb`         |  `pn_emb_crf`        | `pn_emb_cofe`    | riqua   | `rq_emb`         |  `rq_emb_crf`        | `rq_emb_cofe`    |
 | CNN        | polnear | `pn_cnn`         |  `pn_cnn_crf`        | `pn_cnn_cofe`    | riqua   | `rq_cnn`         |  `rq_cnn_crf`        | `rq_cnn_cofe`    |
 | GRU        | polnear | `pn_gru`         |  `pn_gru_crf`        | `pn_gru_cofe`    | riqua   | `rq_gru`         |  `rq_gru_crf`        | `rq_gru_cofe`    |
