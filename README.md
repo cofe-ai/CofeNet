@@ -1,5 +1,3 @@
-# Modifying, DO NOT release now!!!
-
 CofeNet
 ==============================================
 This is the source code of COLING 2022 paper "CofeNet: Context and Former-Label Enhanced Net for Complicated Quotation Extraction". See our [paper](https://aclanthology.org/2022.coling-1.215/) for more details.
@@ -68,7 +66,7 @@ Configuration files are stored in the `conf/setting` directory. Here we give the
 
 ## 1.4 Trained model
 
-Download the [trained model](https://drive.google.com/drive/folders/1sU7m3e9lZABq_bLsDWjoeUV3QPX01Glc?usp=sharing). Save in `./conf/models`. Reproduce our results by [2.2 Evaluate](#2.2 Evaluate).
+Download the [trained model](https://drive.google.com/drive/folders/1sU7m3e9lZABq_bLsDWjoeUV3QPX01Glc?usp=sharing). Save in `./conf/models`. Reproduce our results by [Evaluate](#Evaluate).
 
 # 2. Run
 
