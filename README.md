@@ -76,6 +76,7 @@ TODO:
 1. Run the code
 
 ```bash
+# Cofe for polnear
 python run_train.py --exp_name pn_emb_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
 python run_train.py --exp_name pn_cnn_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
 python run_train.py --exp_name pn_gru_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
@@ -83,6 +84,16 @@ python run_train.py --exp_name pn_lstm_cofe --trn_name v1 --eval_per_step 250 --
 python run_train.py --exp_name pn_blstm_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
 python run_train.py --exp_name pn_blstm2_cofe --trn_name v1 --eval_per_step 250 --max_epoch 15 --batch_size 32 --gpu 0
 python run_train.py --exp_name pn_bert_cofe --trn_name v1 --eval_per_step 500 --max_epoch 6 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
+
+# Cofe for riqua
+python run_train.py --exp_name rq_emb_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
+python run_train.py --exp_name rq_cnn_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
+python run_train.py --exp_name rq_gru_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
+python run_train.py --exp_name rq_lstm_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
+python run_train.py --exp_name rq_blstm_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
+python run_train.py --exp_name rq_blstm2_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
+python run_train.py --exp_name rq_bert_cofe --trn_name v2.1 --eval_per_step 10 --max_epoch 20 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
+
 ```
 
 2. Check log
@@ -103,6 +114,7 @@ tensorboard --bind_all --port 9900 --logdir ./log
 Run the code to print the experimental results of the trained model.
 
 ```bash
+# Cofe for polnear
 python run_eval.py --exp_name pn_emb_cofe --gpu 0
 python run_eval.py --exp_name pn_cnn_cofe --gpu 0
 python run_eval.py --exp_name pn_gru_cofe --gpu 0
@@ -110,6 +122,15 @@ python run_eval.py --exp_name pn_lstm_cofe --gpu 0
 python run_eval.py --exp_name pn_blstm_cofe --gpu 0
 python run_eval.py --exp_name pn_blstm2_cofe --gpu 0
 python run_eval.py --exp_name pn_bert_cofe --gpu 0
+
+# Cofe for riqua
+python run_eval.py --exp_name rq_emb_cofe --gpu 0
+python run_eval.py --exp_name rq_cnn_cofe --gpu 0
+python run_eval.py --exp_name rq_gru_cofe --gpu 0
+python run_eval.py --exp_name rq_lstm_cofe --gpu 0
+python run_eval.py --exp_name rq_blstm_cofe --gpu 0
+python run_eval.py --exp_name rq_blstm2_cofe --gpu 0
+python run_eval.py --exp_name rq_bert_cofe --gpu 0
 ```
 
 # 3. Experiment
