@@ -66,7 +66,7 @@ Configuration files are stored in the `conf/setting` directory. Here we give the
 
 ## 1.4 Trained model
 
-Download the [trained model](https://drive.google.com/drive/folders/1sU7m3e9lZABq_bLsDWjoeUV3QPX01Glc?usp=sharing). Save in `./conf/models`. Reproduce our results by [Evaluate](#Evaluate).
+Download the [trained model](https://drive.google.com/drive/folders/1sU7m3e9lZABq_bLsDWjoeUV3QPX01Glc?usp=sharing). Save in `./conf/models`. Reproduce our results by [Evaluate](#2.2 Evaluate).
 
 # 2. Run
 
