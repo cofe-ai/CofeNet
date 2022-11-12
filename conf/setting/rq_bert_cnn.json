@@ -1,6 +1,6 @@
 {
-  "dat_name": "polnear",
-  "mod_name": "ModelBertLSTM_CRF",
+  "dat_name": "riqua",
+  "mod_name": "ModelBertCNN",
   "dat_model": "DatasetBert",
   "bert_pretrained": "bert-base-uncased",
   "max_seqs": 300,
@@ -31,11 +31,11 @@
       "type_vocab_size": 2,
       "vocab_size": 30522
     },
-     "lstm": {
-      "hidden_size": 300,
-      "bidirectional": false,
-      "num_layers": 1,
-      "dropout": 0.0
+    "cnn": {
+      "out_channels": 300,
+      "out_hidden_size": 300,
+      "pool": "avg",
+      "kernel_sizes": [1, 3]
     }
   }
 }

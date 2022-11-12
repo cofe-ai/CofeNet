@@ -1,0 +1,29 @@
+{
+  "dat_name": "riqua",
+  "mod_name": "ModelEMB_Cofe",
+  "dat_model": "DatasetLSTM",
+  "max_seqs": 300,
+  "mod_conf": {
+    "tag_size": 7,
+    "words_size": 5000,
+    "word_embedding_dim": 300,
+    "words_emb_dropout_prob": 0.5,
+
+    "enh": {
+      "tag_size": 7,
+      "random_seed": 2021,
+      "true_pred_rand_prob": [0.5, 0.4, 0.1],
+      "hidden_act": "gelu",
+      "num_pre_preds": 2,
+      "num_pre_tokens": 3,
+      "num_nxt_tokens": 3,
+      "in_hidden_size": 300,
+      "hidden_size": 100,
+      "pred_embedding_dim": 100,
+      "fc_hy_dropout_prob": 0.5,
+      "fc_hc_dropout_prob": 0.5,
+      "fc_hf_dropout_prob": 0.5,
+      "fc_hl_dropout_prob": 0.5
+    }
+  }
+}

@@ -53,15 +53,18 @@ Each item of data is stored in a line by json. The label "tokens" is the text wo
 
 Configuration files are stored in the `conf/setting` directory. Here we give the experimental configuration's name(`exp_name`) in the [paper](https://aclanthology.org/2022.coling-1.215/) so that you can quickly reproduce the experimental results. You can also configure your experiments here.
 
-| Base Model | Dateset | Base        |    with CRF     | with Cofe        |
-|:-----------|:-------:|-------------|:---------------:|------------------|
-| CRF        | polnear | `pn_cnn`    |  `pn_cnn_crf`   | `pn_cnn_cofe`    |
-| CNN        | polnear | `pn_cnn`    |  `pn_cnn_crf`   | `pn_cnn_cofe`    |
-| LSTM       | polnear | `pn_lstm`   |  `pn_lstm_crf`  | `pn_lstm_cofe`   |
-| GRU        | polnear | `pn_gru`    |  `pn_gru_crf`   | `pn_gru_cofe`    |
-| BiLSTM     | polnear | `pn_blstm`  | `pn_blstm_crf`  | `pn_blstm_cofe`  |
-| BiLSTM L2  | polnear | `pn_blstm2` | `pn_blstm2_crf` | `pn_blstm2_cofe` |
-| BERT       | polnear | `pn_bert`   |  `pn_bert_crf`  | `pn_bert_cofe`   |
+| Base Model | Dateset | Base             |    with CRF          | with Cofe        | Dateset | Base             |    with CRF          | with Cofe        |
+|:-----------|:-------:|------------------|:--------------------:|------------------|:-------:|------------------|:--------------------:|------------------|
+| Embedding  | polnear | `pn_emb`         |  `pn_emb_crf`        | `pn_emb_cofe`    | riqua   | `rq_emb`         |  `rq_emb_crf`        | `rq_emb_cofe`    |
+| CNN        | polnear | `pn_cnn`         |  `pn_cnn_crf`        | `pn_cnn_cofe`    | riqua   | `rq_cnn`         |  `rq_cnn_crf`        | `rq_cnn_cofe`    |
+| GRU        | polnear | `pn_gru`         |  `pn_gru_crf`        | `pn_gru_cofe`    | riqua   | `rq_gru`         |  `rq_gru_crf`        | `rq_gru_cofe`    |
+| LSTM       | polnear | `pn_lstm`        |  `pn_lstm_crf`       | `pn_lstm_cofe`   | riqua   | `rq_lstm`        |  `rq_lstm_crf`       | `rq_lstm_cofe`   |
+| BiLSTM     | polnear | `pn_blstm`       |  `pn_blstm_crf`      | `pn_blstm_cofe`  | riqua   | `rq_blstm`       |  `rq_blstm_crf`      | `rq_blstm_cofe`  |
+| BiLSTM L2  | polnear | `pn_blstm2`      |  `pn_blstm2_crf`     | `pn_blstm2_cofe` | riqua   | `rq_blstm2`      |  `rq_blstm2_crf`     | `rq_blstm2_cofe` |
+| BERT       | polnear | `pn_bert`        |  `pn_bert_crf`       | `pn_bert_cofe`   | riqua   | `rq_bert`        |  `rq_bert_crf`       | `rq_bert_cofe`   |
+| BERT-CNN   | polnear | `pn_bert_cnn`    |                      |                  | riqua   | `rq_bert_cnn`    |                      |                  |
+| BERT-LSTM  | polnear | `pn_bert_lstm`   |                      |                  | riqua   | `rq_bert_lstm`   |                      |                  |
+| BERT-BiLSTM| polnear | `pn_bert_blstm`  |  `pn_bert_blstm_crf` |                  | riqua   | `rq_bert_blstm`  |  `rq_bert_blstm_crf` |                  |
 
 ## 1.4 Trained model
 TODO: 
@@ -100,8 +103,12 @@ tensorboard --bind_all --port 9900 --logdir ./log
 Run the code to print the experimental results of the trained model.
 
 ```bash
-python run_eval.py --exp_name pn_bert --gpu 0
-python run_eval.py --exp_name pn_bert_crf --gpu 0
+python run_eval.py --exp_name pn_emb_cofe --gpu 0
+python run_eval.py --exp_name pn_cnn_cofe --gpu 0
+python run_eval.py --exp_name pn_gru_cofe --gpu 0
+python run_eval.py --exp_name pn_lstm_cofe --gpu 0
+python run_eval.py --exp_name pn_blstm_cofe --gpu 0
+python run_eval.py --exp_name pn_blstm2_cofe --gpu 0
 python run_eval.py --exp_name pn_bert_cofe --gpu 0
 ```
 

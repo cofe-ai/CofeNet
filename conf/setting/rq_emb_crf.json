@@ -1,0 +1,11 @@
+{
+  "dat_name": "riqua",
+  "mod_name": "ModelEMB_CRF",
+  "dat_model": "DatasetLSTM",
+  "max_seqs": 300,
+  "mod_conf": {
+    "tag_size": 7,
+    "words_size": 5000,
+    "word_embedding_dim": 300
+  }
+}
