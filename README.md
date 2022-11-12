@@ -6,7 +6,7 @@ This is the source code of COLING 2022 paper "CofeNet: Context and Former-Label 
 <p align="center"><img width="100%" src="docs/architecture.png" /></p>
 
 # 1. Setup
-## 1.1 Environment
+## Environment
 ```
 # Python version==3.7
 git clone https://github.com/cofe-ai/CofeNet.git
@@ -14,7 +14,7 @@ cd CofeNet
 pip install -r requirements.txt
 ```
 
-## 1.2 Datasets
+## Datasets
 
 The data set is in the `./res` directory. Here we give two datasets `polnear` and `riqua` in our [paper](https://aclanthology.org/2022.coling-1.215/). You can store other datasets here for the framework to read.
 
@@ -47,7 +47,7 @@ Each item of data is stored in a line by json. The label "tokens" is the text wo
 * `tag.txt`: The set of "labels" in the dataset.
 * `voc.txt`: Tokens vocabulary for non-pretrained model(_i.e._, LSTM).
 
-## 1.3 Experiment Configure
+## Experiment Configure
 
 Configuration files are stored in the `conf/setting` directory. Here we give the experimental configuration's name(`exp_name`) in the [paper](https://aclanthology.org/2022.coling-1.215/) so that you can quickly reproduce the experimental results. You can also configure your experiments here.
 
@@ -64,13 +64,13 @@ Configuration files are stored in the `conf/setting` directory. Here we give the
 | BERT-LSTM  | polnear | `pn_bert_lstm`   |                      |                  | riqua   | `rq_bert_lstm`   |                      |                  |
 | BERT-BiLSTM| polnear | `pn_bert_blstm`  |  `pn_bert_blstm_crf` |                  | riqua   | `rq_bert_blstm`  |  `rq_bert_blstm_crf` |                  |
 
-## 1.4 Trained model
+## Trained model
 
-Download the [trained model](https://drive.google.com/drive/folders/1sU7m3e9lZABq_bLsDWjoeUV3QPX01Glc?usp=sharing). Save in `./conf/models`. Reproduce our results by [Evaluate](#2.2 Evaluate).
+Download the [trained model](https://drive.google.com/drive/folders/1sU7m3e9lZABq_bLsDWjoeUV3QPX01Glc?usp=sharing). Save in `./conf/models`. Reproduce our results by [Evaluate](#Evaluate).
 
 # 2. Run
 
-## 2.1 Train
+## Train
 
 1. Run the code
 
@@ -108,7 +108,7 @@ You can find log files in `./log`. For a set of experiments, here you can find t
 tensorboard --bind_all --port 9900 --logdir ./log
 ```
 
-## 2.2 Evaluate
+## Evaluate
 
 Run the code to print the experimental results of the trained model.
 
