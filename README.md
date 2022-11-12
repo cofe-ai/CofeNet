@@ -92,7 +92,7 @@ python run_train.py --exp_name rq_gru_cofe --trn_name v1 --eval_per_step 10 --ma
 python run_train.py --exp_name rq_lstm_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
 python run_train.py --exp_name rq_blstm_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
 python run_train.py --exp_name rq_blstm2_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 32 --gpu 0
-python run_train.py --exp_name rq_bert_cofe --trn_name v2.1 --eval_per_step 10 --max_epoch 20 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
+python run_train.py --exp_name rq_bert_cofe --trn_name v1 --eval_per_step 10 --max_epoch 20 --batch_size 15 --bert_learning_rate 5e-5 --gpu 0
 
 ```
 
