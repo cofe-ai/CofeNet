@@ -39,7 +39,7 @@ The data set is in the `./res` directory. Here we give two datasets `polnear` an
 If you want to use other datasets, you need to build 5 files for each dataset. The file names do not change:
 * `train.txt`, `test.txt`, `valid.txt`: Structured Dataset.
 
-Each item of data is stored in a line by json. The label "tokens" is the text words sequence, and "labels" is the corresponding sequence label tag.
+Each item of data is stored in a line by json. The key "tokens" is the text words sequence, and "labels" is the corresponding sequence label tag.
 ```json
 {"tokens": ["WikiLeaks", "claims", "`", "state", ...], "labels": ["B-source", "B-cue", "B-content", "I-content", ...]}
 ```
