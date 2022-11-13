@@ -97,10 +97,12 @@ python run_train.py --exp_name rq_bert_cofe --trn_name v1 --eval_per_step 10 --m
 
 (b) Check log
 
-You can find log files in `./log`. For a set of experiments, here you can find the files:
+You can find log files in `./log`. For an experiment, here you can find these files:
 * Parameter Configuration (_i.e._, `pn_bert_cofe_v1_20221101_040732.json`)
 * Training Log (_i.e._, `pn_bert_cofe_v1_20221101_040732.txt`)
 * Tensorboard Files (_i.e._, `pn_bert_cofe_v1_20221101_040732/`)
+
+In this example, `pn_bert_cofe_v1_20221101_040732` is the unique name of an experiment. It contains the experiment name(`pn_bert_cofe`), training version(`v1`), and start training time(`20221101_040732`).
 
 (c) Run Tensorboard
 
