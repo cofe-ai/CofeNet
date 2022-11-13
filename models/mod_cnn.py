@@ -109,22 +109,4 @@ class ModelCNN_Cofe(ExpModelBase):
 
 
 if __name__ == '__main__':
-    from torch.utils.data import DataLoader
-    from utils import *
-    from data import imp_exp_dataset
-
-    exp_name = 'zh_cnn_cofe'
-
-    exp_conf = ExpConfig(exp_name)
-    obj = ModelCNN_Cofe(exp_conf.mod_conf)
-
-    ds = imp_exp_dataset(exp_name, 'TST')
-    train_loader = DataLoader(dataset=ds, batch_size=2, shuffle=True, collate_fn=ds.collate)
-    print(len(train_loader))
-    for batch_data, batch_lab, _ in train_loader:
-        loss = obj.forward_loss(batch_data, batch_lab, ds.LBID_IGN)
-        pred_y_2 = obj.predict(batch_data)
-        print(loss)
-        print(pred_y_2)
-        print(batch_lab)
-        break
+    pass

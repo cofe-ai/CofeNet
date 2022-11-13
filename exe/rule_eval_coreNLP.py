@@ -66,15 +66,3 @@ def eval_dataset(dataset: str, lang: str = 'en'):
         preds.append(get_pred_tag_seq(tst_data['tokens'], tmp_pred, lang))
 
     return evaluate_extraction(labels, preds)
-
-# polnear
-print('polnear')
-print(Executor.format_result(eval_dataset('polnear', 'en'), markdown_table=True))
-
-# riqua
-print('riqua')
-print(Executor.format_result(eval_dataset('riqua', 'en'), markdown_table=True))
-
-# zh
-print('zh')
-print(Executor.format_result(eval_dataset('zh', 'zh'), markdown_table=True))

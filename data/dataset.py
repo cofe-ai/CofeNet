@@ -202,14 +202,4 @@ class DatasetLSTM(ExpDatasetBase):
 
 
 if __name__ == '__main__':
-    #ds = DatasetBert('tzh_bert_be', 'TRN')
-    ds = DatasetBert('ten_bert', 'TRN')
-
-    from torch.utils.data import DataLoader
-
-    train_loader = DataLoader(dataset=ds, batch_size=2, shuffle=True, collate_fn=ds.collate)
-    for batch_data, batch_lab, batch_labstr in train_loader:
-        print(batch_data)
-        print(batch_lab)
-        print(batch_labstr)
-        break
+    pass

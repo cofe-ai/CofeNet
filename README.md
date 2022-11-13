@@ -72,7 +72,7 @@ Download the [trained model](https://drive.google.com/drive/folders/1sU7m3e9lZAB
 
 ## Train
 
-1. Run the code
+(a) Run the code
 
 ```bash
 # Cofe for polnear
@@ -95,14 +95,14 @@ python run_train.py --exp_name rq_bert_cofe --trn_name v1 --eval_per_step 10 --m
 
 ```
 
-2. Check log
+(b) Check log
 
 You can find log files in `./log`. For a set of experiments, here you can find the files:
 * Parameter Configuration (_i.e._, `pn_bert_cofe_v1_20221101_040732.json`)
 * Training Log (_i.e._, `pn_bert_cofe_v1_20221101_040732.txt`)
 * Tensorboard Files (_i.e._, `pn_bert_cofe_v1_20221101_040732/`)
 
-3. Run Tensorboard
+(c) Run Tensorboard
 
 ```bash
 tensorboard --bind_all --port 9900 --logdir ./log

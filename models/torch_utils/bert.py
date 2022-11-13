@@ -56,19 +56,4 @@ class WordBert(nn.Module):
 
 
 if __name__ == '__main__':
-    from torch.utils.data import DataLoader
-    from utils import *
-    from data import imp_exp_dataset
-
-    exp_name = 'en_bert'
-
-    exp_conf = ExpConfig(exp_name)
-    obj = WordBert(exp_conf.mod_conf['bert'])
-    obj.load_pretrained(exp_conf.bert_pretrained)
-
-    ds = imp_exp_dataset(exp_name, 'TST')
-    train_loader = DataLoader(dataset=ds, batch_size=2, shuffle=True, collate_fn=ds.collate)
-    print(len(train_loader))
-    for batch_data, batch_lab, _ in train_loader:
-        obj.forward(input_ids=batch_data['tkidss'], attention_mask=batch_data['attention_mask'], wdlens=batch_data['wdlens'])
-        print(batch_data)
+    pass

@@ -26,13 +26,4 @@ def create_vocabulary_from_files(file_paths, voc_file_path):
 
 
 if __name__ == '__main__':
-    from utils.path import *
-
-    # print(len(load_data_from_file(DATA_FILE('zh', 'TRN'), 100)))
-    # print(len(load_data_from_file(DATA_FILE('zh', 'TST'), 100)))
-    # print(len(load_data_from_file(DATA_FILE('zh', 'VAL'), 100)))
-    # print(len(load_data_from_file(DATA_FILE('polnear-v1', 'TRN'), 100)))
-    # print(len(load_data_from_file(DATA_FILE('polnear-v1', 'TST'), 100)))
-    # print(len(load_data_from_file(DATA_FILE('polnear-v1', 'VAL'), 100)))
-    aa = load_data_from_file(RES_DATA_FILE('polnear-v1', 'TST'), 100)
-    print(aa[0])
+    pass

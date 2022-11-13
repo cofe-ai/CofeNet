@@ -88,17 +88,4 @@ class VocabularyBert(VocabularyBase):
 
 
 if __name__ == '__main__':
-    # obj = VocabularyNormal.load_vocabulary('zh_lstm')
-    # print('我 -> ' + str(obj.wd2ids('我')))
-
-    # obj = VocabularyBert.load_vocabulary('en2f_bert')
-    # print('VocabularyNormal -> ' + str(obj.wd2ids('[CLS]VocabularyNormal')))
-
-    obj = VocabularyBert.load_vocabulary('zh_bert')
-    print('我 -> ' + str(obj.wd2ids('[CLS]我')))
-    print('\'\' -> ' + str(obj.wd2ids('')))
-    print('\'\' -> ' + str(obj.wd2ids('')))
-    print('\'\' -> ' + str(obj.wd2ids('')))
-    print('\'\' -> ' + str(obj.wd2ids('')))
-    print('\'\' -> ' + str(obj.wd2ids('')))
-    print('VocabularyNormal -> ' + str(obj.wd2ids('VocabularyNormal')))
+    pass

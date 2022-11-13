@@ -121,7 +121,7 @@ if __name__ == '__main__':
     from utils import *
     from data import imp_exp_dataset
 
-    exp_name = 'en2f_lstm_cofe'
+    exp_name = 'pn_lstm_cofe'
 
     exp_conf = ExpConfig(exp_name)
     obj = ModelLSTM_Cofe(exp_conf.mod_conf)

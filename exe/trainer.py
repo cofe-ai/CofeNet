@@ -13,10 +13,6 @@ def get_current_time_str():
     return '%04d%02d%02d_%02d%02d%02d' % (t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
 
 
-# import sys
-# np.set_printoptions(threshold=sys.maxsize)
-# torch.set_printoptions(profile='full')
-
 class Trainer(Executor):
     def __init__(self, params: dict):
         self.params = params
@@ -231,48 +227,4 @@ class Trainer(Executor):
 
 
 if __name__ == '__main__':
-    import argparse
-    from utils import get_gpus_meminfo, get_best_device, cuda_is_available
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--exp_name", type=str, default='en_oursd')
-    # parser.add_argument("--exp_name", type=str, default='en_bert')
-    parser.add_argument("--trn_name", type=str, default='v0')
-
-    parser.add_argument("--gpu", type=int, default=None)
-    parser.add_argument("--use_cpu", default=False, action='store_true')
-
-    parser.add_argument('--show_per_step', type=int, default=10)
-    parser.add_argument("--eval_per_step", type=int, default=50)
-    parser.add_argument('--max_mod_saved_num', type=int, default=5)
-    parser.add_argument("--do_not_save_mod", default=False, action='store_true')
-
-    parser.add_argument('--random_seed', type=int, default=2021)
-    parser.add_argument('--optim', type=str, default="Adam", choices=["Adam", "AdamW", "Adadelta", "RMSprop", "Adagrad"])
-
-    parser.add_argument("--max_epoch", type=int, default=80)
-    parser.add_argument("--learning_rate", type=float, default=1e-3)
-    parser.add_argument('--weight_decay', type=float, default=0)
-    parser.add_argument("--bert_learning_rate", type=float, default=1e-4)
-    parser.add_argument('--bert_weight_decay', type=float, default=0)
-    parser.add_argument("--fix_bert", default=False, action='store_true')
-    parser.add_argument("--batch_size", type=int, default=16)
-    params = parser.parse_args().__dict__
-
-    # select the good gpu/cpu
-    if not params['use_cpu'] and cuda_is_available():
-        if (params['gpu'] is None) or (params['gpu'] not in get_gpus_meminfo()[0]):
-            params['gpu'] = get_best_device()
-    else:
-        params['gpu'] = None
-    params.pop('use_cpu')
-
-    if params['gpu'] is None:
-        print('device: CPU')
-    else:
-        print('device: GPU %d' % params['gpu'])
-
-    obj = Trainer(params)
-    obj.train()
-    # print(obj.eval_dataset_tst())
-    # print(obj.eval_dataset_val())
+    pass

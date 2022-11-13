@@ -42,4 +42,4 @@ class ExpConfig(object):
 
 
 if __name__ == '__main__':
-    obj = ExpConfig('zh_lstm')
+    pass

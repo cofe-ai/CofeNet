@@ -6,7 +6,7 @@ from utils import get_gpus_meminfo, get_best_device, cuda_is_available
 from exe import Executor
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--exp_name", type=str, default='en2f_lstm')
+parser.add_argument("--exp_name", type=str, default='pn_bert_cofe')
 parser.add_argument("--gpu", type=int, default=None)
 parser.add_argument("--use_cpu", default=False, action='store_true')
 parser.add_argument("--mod_index", type=int, default=-1)

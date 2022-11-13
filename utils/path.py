@@ -77,7 +77,4 @@ def CONF_MOD_EXP_DIR_VOCAB_E(exp_name: str):
 LOG_DIR = define_dir(os.path.dirname(__file__), os.pardir, 'log')
 
 if __name__ == '__main__':
-    print(RES_DATA_FILE('zh', 'VOC'))
-    print(RES_DATA_FILE('polnear-v1', 'VOC'))
-    print(CONF_SET_EXP_FILE('zh_lstm'))
-    print(CONF_MOD_EXP_DIR('zh_lstm'))
+    pass
